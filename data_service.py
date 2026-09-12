@@ -19,7 +19,11 @@ def get_regions(data):
     return sorted(regions)
 
 def get_columns(data):
-    return list(data[0].keys())
+    columns = []
+    for column in data[0].keys():
+        if column != 'region':
+            columns.append(column)
+    return columns
 
 def get_column_values(data, column):
     column_values = []
