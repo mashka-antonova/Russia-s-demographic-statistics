@@ -45,7 +45,7 @@ def calculate_variance(values, mean):
     sum_of_squares = 0
     for value in values:
         sum_of_squares += (value - mean) ** 2
-    return sum_of_squares / len(values) - 1
+    return sum_of_squares / len(values)
 
 def detect_outliers(values, q1, q3):
     iqr = q3 - q1

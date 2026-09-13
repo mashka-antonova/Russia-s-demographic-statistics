@@ -6,7 +6,6 @@ import csv_reader
 import data_service
 import statistics_service
 
-
 MAX_FILE_SIZE = 100 * 1024 * 1024
 
 
@@ -55,31 +54,38 @@ def main():
         return
 
     regions = data_service.get_regions(data)
-    selected_region = console.choose_region(regions)
-
-    filtered_data = data_service.filter_by_region(data, selected_region)
-
-    console.print_table(filtered_data)
-
     columns = data_service.get_columns(data)
-
     while True:
-        selected_column = console.choose_column(columns)
+        selected_region = console.choose_region(regions)
+        filtered_data = data_service.filter_by_region(data, selected_region)
+        console.print_table(filtered_data)
 
-        try:
-            column_values, missing_count = data_service.get_column_values(filtered_data, selected_column)
-            console.print_missing_values_info(missing_count)
-            break
+        while True:
+            selected_column = console.choose_column(columns)
 
-        except ValueError as error:
-            print(error)
+            try:
+                column_values, missing_count = data_service.get_column_values(filtered_data, selected_column)
+                console.print_missing_values_info(missing_count)
 
-    try:
-        statistics_result = statistics_service.calculate_statistics(column_values)
-    except ValueError as error:
-        print(error)
-        return
-    console.print_statistics(statistics_result)
+            except ValueError as error:
+                print(error)
+                continue
+
+            try:
+                statistics_result = statistics_service.calculate_statistics(column_values)
+            except ValueError as error:
+                print(error)
+                continue
+            console.print_statistics(statistics_result)
+
+            action = console.ask_action()
+
+            if action == 0:
+                return
+            elif action == 1:
+                continue
+            elif action == 2:
+                break
 
 
 if __name__ == '__main__':

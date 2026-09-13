@@ -65,7 +65,7 @@ def print_statistics(statistics_result):
     for percentile, value in statistics_result['percentiles'].items():
         print(f'Перцентиль {percentile}% : {round(value, 2)}')
         print('-----------------------')
-    print('Меры разброса')
+    print('Меры разброса:')
     print('Размах:', round(statistics_result['range'], 2))
     print('Дисперсия:', round(statistics_result['variance'], 2))
     print('Стандартное отклонение:', round(statistics_result['standard_deviation'], 2))
@@ -75,3 +75,18 @@ def print_missing_values_info(missing_count):
     if missing_count > 0:
         print('Количество строк с пустыми значениями: ', missing_count,
             '\nСтроки с пустыми значениями не участвуют в расчете')
+
+def ask_action():
+    print('\nЧто сделать дальше?')
+    print('1 - выбрать другую колонку')
+    print('2 - выбрать другой регион')
+    print('0 - выйти')
+    while True:
+        try:
+            action = int(input('Введите номер действия: '))
+            if action in (0, 1, 2):
+                return action
+            else:
+                print('Такого действия нет, попробуйте снова')
+        except ValueError:
+            print('Номер действия - целое число, попробуйте снова')
