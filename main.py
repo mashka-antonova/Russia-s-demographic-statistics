@@ -12,9 +12,8 @@ MAX_FILE_SIZE = 100 * 1024 * 1024
 
 def load_data(filepath):
     if os.path.getsize(filepath) > MAX_FILE_SIZE:
-        raise ValueError(
-            'Файл слишком большой. Максимальный размер - 100 МБ.'
-        )
+        raise ValueError('Файл слишком большой. Максимальный размер - 100 МБ.')
+
     data = csv_reader.read_csv(filepath)
     data_service.validate_data(data)
 
@@ -69,15 +68,17 @@ def main():
 
         try:
             column_values, missing_count = data_service.get_column_values(filtered_data, selected_column)
-            print('Количество строк с пустыми значениями: ', missing_count,
-                  '\nСтроки с пустыми значениями не участвуют в расчете')
+            console.print_missing_values_info(missing_count)
             break
 
         except ValueError as error:
             print(error)
 
-    statistics_result = statistics_service.calculate_statistics(column_values)
-
+    try:
+        statistics_result = statistics_service.calculate_statistics(column_values)
+    except ValueError as error:
+        print(error)
+        return
     console.print_statistics(statistics_result)
 
 

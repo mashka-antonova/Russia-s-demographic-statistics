@@ -60,8 +60,18 @@ def print_statistics(statistics_result):
     print('Минимум:', statistics_result['minimum'])
     print('Максимум:', statistics_result['maximum'])
     print('Среднее:', round(statistics_result['mean'], 2))
-    print('Медиана:', statistics_result['median'])
+    print('Медиана:', round(statistics_result['median'], 2))
     print()
     for percentile, value in statistics_result['percentiles'].items():
         print(f'Перцентиль {percentile}% : {round(value, 2)}')
         print('-----------------------')
+    print('Меры разброса')
+    print('Размах:', round(statistics_result['range'], 2))
+    print('Дисперсия:', round(statistics_result['variance'], 2))
+    print('Стандартное отклонение:', round(statistics_result['standard_deviation'], 2))
+    print('Количество выбросов:', statistics_result['outliers_count'])
+
+def print_missing_values_info(missing_count):
+    if missing_count > 0:
+        print('Количество строк с пустыми значениями: ', missing_count,
+            '\nСтроки с пустыми значениями не участвуют в расчете')

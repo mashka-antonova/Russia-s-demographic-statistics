@@ -41,6 +41,24 @@ def calculate_percentiles(values):
             percentiles[percentile] = sorted_values[i] + d * (sorted_values[i + 1] - sorted_values[i])
     return percentiles
 
+def calculate_variance(values, mean):
+    sum_of_squares = 0
+    for value in values:
+        sum_of_squares += (value - mean) ** 2
+    return sum_of_squares / len(values) - 1
+
+def detect_outliers(values, q1, q3):
+    iqr = q3 - q1
+    lower_bound = q1 - iqr * 1.5
+    upper_bound = q3 + iqr * 1.5
+
+    outliers = []
+    for value in values:
+        if value > upper_bound or value < lower_bound:
+            outliers.append(value)
+
+    return outliers
+
 def calculate_statistics(values):
     if not values:
         raise ValueError('Список пустой. Расчет метрик невозможен')
@@ -50,6 +68,13 @@ def calculate_statistics(values):
     median = calculate_median(values)
     mean = calculate_mean(values)
     percentiles = calculate_percentiles(values)
+
+    range_value = maximum - minimum
+    variance = calculate_variance(values, mean)
+    standard_deviation = variance ** 0.5
+    outliers = detect_outliers(values, percentiles[25], percentiles[75])
+
     statistics = {'minimum' : minimum, 'maximum' : maximum, 'median' : median, 'mean' : mean,
-                  'percentiles' : percentiles}
+                  'percentiles' : percentiles, 'range' : range_value, 'variance' : variance,
+                  'standard_deviation' : standard_deviation, 'outliers_count' : len(outliers)}
     return statistics
