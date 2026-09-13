@@ -7,43 +7,32 @@ def choose_file():
     )
     return filepath
 
-def choose_region(regions):
-    print('Все регионы:')
-    for index, region in enumerate(regions):
-        print(index, '-', region)
+def choose_item(items, list_text, invitation_text):
+    print(list_text)
+    for index, item in enumerate(items):
+        print(index, '-', item)
 
     while True:
         try:
-            region_id = int(input('Введите ID региона: '))
-            if 0 <= region_id < len(regions):
-                selected_region = regions[region_id]
-                break
+            item_id = int(input(invitation_text))
+            if 0 <= item_id < len(items):
+                selected_item = items[item_id]
+                return selected_item
             else:
                 print('Данного ID не существует, попробуйте снова')
-
         except ValueError:
-            print('Введите число - ID региона, попробуйте снова')
+            print('ID - это целое число, попробуйте снова')
 
-    return selected_region
 
+def choose_region(regions):
+    return choose_item(regions,
+                       'Все регионы:',
+                       'Введите ID региона: ')
 
 def choose_column(columns):
-    print('Все колонки:')
-    for index, column in enumerate(columns):
-        print(index, '-', column)
-
-    while True:
-        try:
-            column_id = int(input('Введите колонку для вычисления метрик: '))
-            if 0 <= column_id < len(columns):
-                selected_column = columns[column_id]
-                break
-            else:
-                print('Данного ID не существует, попробуйте снова')
-        except ValueError:
-            print('Введите число - ID колонки, попробуйте снова')
-
-    return selected_column
+    return choose_item(columns,
+                       'Все колонки:',
+                       'Введите колонку для вычисления метрик: ')
 
 def print_table(data):
     column_width = get_column_widths(data)

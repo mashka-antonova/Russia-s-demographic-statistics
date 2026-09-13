@@ -68,7 +68,9 @@ def main():
         selected_column = console.choose_column(columns)
 
         try:
-            column_values = data_service.get_column_values(filtered_data, selected_column)
+            column_values, missing_count = data_service.get_column_values(filtered_data, selected_column)
+            print('Количество строк с пустыми значениями: ', missing_count,
+                  '\nСтроки с пустыми значениями не участвуют в расчете')
             break
 
         except ValueError as error:

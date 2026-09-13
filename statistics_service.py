@@ -27,19 +27,6 @@ def calculate_median(values):
         median = calculate_mean([sorted_values[length // 2], sorted_values[length // 2 - 1]])
     return median
 
-def calculate_statistics(values):
-    if not values:
-        raise ValueError('Список пустой. Расчет метрик невозможен')
-
-    minimum = calculate_min(values)
-    maximum = calculate_max(values)
-    median = calculate_median(values)
-    mean = calculate_mean(values)
-    percentiles = calculate_percentiles(values)
-    statistics = {'minimum' : minimum, 'maximum' : maximum, 'median' : median, 'mean' : mean,
-                  'percentiles' : percentiles}
-    return statistics
-
 def calculate_percentiles(values):
     percentiles = {}
     sorted_values = sorted(values)
@@ -53,3 +40,16 @@ def calculate_percentiles(values):
         else:
             percentiles[percentile] = sorted_values[i] + d * (sorted_values[i + 1] - sorted_values[i])
     return percentiles
+
+def calculate_statistics(values):
+    if not values:
+        raise ValueError('Список пустой. Расчет метрик невозможен')
+
+    minimum = calculate_min(values)
+    maximum = calculate_max(values)
+    median = calculate_median(values)
+    mean = calculate_mean(values)
+    percentiles = calculate_percentiles(values)
+    statistics = {'minimum' : minimum, 'maximum' : maximum, 'median' : median, 'mean' : mean,
+                  'percentiles' : percentiles}
+    return statistics
