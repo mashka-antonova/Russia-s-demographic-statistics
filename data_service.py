@@ -28,15 +28,15 @@ def get_columns(data):
 def get_column_values(data, column):
     column_values = []
     missing_count = 0
+
     for index, row in enumerate(data, start=1):
         value = row[column]
         if value is None or value.strip() == '':
             missing_count += 1
             continue
+            
         try:
             column_values.append(float(value))
         except ValueError:
-            raise ValueError(
-                f'Значение в столбце {column}, строка {index} - не число'
-            )
+            raise ValueError(f'Значение в столбце {column}, строка {index} - не число')
     return column_values, missing_count
